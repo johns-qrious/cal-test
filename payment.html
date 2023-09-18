@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mock Payment Form</title>
+</head>
+<body>
+  <h3>Enter your credit card details</h3>
+  <form id="paymentForm" action="#">
+    <label for="cardNumber">Card Number:</label>
+    <input type="text" id="cardNumber" placeholder="Card number" required><br><br>
+
+    <label for="expiryDate">Expiry Date:</label>
+    <input type="text" id="expiryDate" placeholder="MM/YY" required><br><br>
+
+    <label for="cvv">CVV:</label>
+    <input type="text" id="cvv" placeholder="CVV" required><br><br>
+
+    <button type="submit" id="submitButton">Submit Payment</button>
+  </form>
+
+  <script>
+    const paymentForm = document.getElementById('paymentForm');
+    const submitButton = document.getElementById('submitButton');
+
+    submitButton.addEventListener('click', function(event) {
+      event.preventDefault();
+
+      const cardNumber = document.getElementById('cardNumber').value;
+      const expiryDate = document.getElementById('expiryDate').value;
+      const cvv = document.getElementById('cvv').value;
+
+      // Simulate an API call to send credit card details to example.com
+      simulateApiCall(cardNumber, expiryDate, cvv);
+      
+      // Simulate a successful payment (in a real scenario, this would be an API call to a payment gateway)
+      const successMessage = 'Payment successful! Thank you for your purchase.';
+
+      // Send the success message to the parent window
+      window.parent.postMessage(successMessage, '*');
+    });
+
+    function simulateApiCall(cardNumber, expiryDate, cvv) {
+      // Simulate sending credit card details to an API (example.com)
+      const apiUrl = 'https://example.com/api/endpoint';  // Replace with the actual API endpoint
+
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          cardNumber,
+          expiryDate,
+          cvv,
+        }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('API Response:', data);
+      })
+      .catch(error => console.error('API Error:', error));
+    }
+  </script>
+</body>
+</html>
