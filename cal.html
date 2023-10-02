@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ICS File Generator</title>
+</head>
+<body>
+
+<script type="text/javascript">
+    function generateICSFile(queryParams) {
+      const { start, end, location, summary, description } = queryParams;
+      const icsContent = `
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+DTSTART:${start}
+DTEND:${end}
+LOCATION:${location}
+SUMMARY:${summary}
+DESCRIPTION:${description}
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT15M
+DESCRIPTION:Reminder
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR
+      `;
+
+      return icsContent;
+    }
+
+    function generateAndDownloadICS() {
+      const queryParams = {
+        start: '20231004T100000Z',
+        end: '20231004T120000Z',
+        location: 'Virtual',
+        summary: 'Sample Event',
+        description: 'This is a sample event description.'
+      };
+
+      const icsContent = generateICSFile(queryParams);
+
+      // Create a data URI for the ICS content
+      const dataUri = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsContent);
+
+      // Set the window location to the data URI, triggering the download
+      window.location.href = dataUri;
+    }
+
+    // Automatically generate and download ICS file
+    generateAndDownloadICS();
+  </script>
+</body>
+</html>
